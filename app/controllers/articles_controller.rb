@@ -3,7 +3,7 @@ class ArticlesController < ApplicationController
 
   # GET /articles or /articles.json
   def index
-    @articles = Article.all
+    @articles = Article.all.order(created_at: :desc)
   end
 
   # GET /articles/1 or /articles/1.json
@@ -25,6 +25,7 @@ class ArticlesController < ApplicationController
 
     respond_to do |format|
       if @article.save
+        format.turbo_stream
         format.html { redirect_to article_url(@article), notice: "Article was successfully created." }
         format.json { render :show, status: :created, location: @article }
       else
